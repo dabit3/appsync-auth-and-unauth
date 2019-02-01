@@ -13,10 +13,14 @@ amplify add auth
 ```
 
 > Do you want to use the default authentication and security configuration? __NO__
+
 > Select the authentication/authorization services that you want to use: (Use arrow keys)
 __User Sign-Up, Sign-In, connected with AWS IAM controls (Enables per-user Storage features for images or other content, Analytics, and more)__
+
 > Please provide a friendly name for your resource that will be used to label this category in the project: __YOURAPINAME__
+
 > Please enter a name for your identity pool. __YOURIDPOOLNAME__
+
 > Allow unauthenticated logins? (Provides scoped down permissions that you can control via AWS IAM) __Yes__
 __Choose defaults for the rest of the questions__
 
