@@ -2,7 +2,7 @@
 
 Using the following steps, you can allow both Authenticated & Unauthenticated access to your AWS AppSync API:
 
-1. Create an Amplify
+1. Create an Amplify project
 ```sh
 amplify init
 ```
