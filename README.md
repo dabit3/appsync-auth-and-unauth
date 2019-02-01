@@ -1,68 +1,96 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## AWS AppSync - Authenticated & Unauthenticated Users
 
-## Available Scripts
+Using the following steps, you can allow both Authenticated & Unauthenticated access to your AWS AppSync API:
 
-In the project directory, you can run:
+1. Create an Amplify
+```sh
+amplify init
+```
+1. Add auth with custom security configuration:
 
-### `npm start`
+```sh
+amplify add auth
+```
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+> Do you want to use the default authentication and security configuration? __NO__
+> Select the authentication/authorization services that you want to use: (Use arrow keys)
+__User Sign-Up, Sign-In, connected with AWS IAM controls (Enables per-user Storage features for images or other content, Analytics, and more)__
+> Please provide a friendly name for your resource that will be used to label this category in the project: __YOURAPINAME__
+> Please enter a name for your identity pool. __YOURIDPOOLNAME__
+> Allow unauthenticated logins? (Provides scoped down permissions that you can control via AWS IAM) __Yes__
+__Choose defaults for the rest of the questions__
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+3. Add the api
 
-### `npm test`
+```sh
+amplify add api
+```
+> Choose __Amazon Cognito User Pool__ as the authorization type.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+4. Create the API
 
-### `npm run build`
+```sh
+amplify push
+```
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+5. In the AppSync API dashboard settings, change the authentication type to __AWS Identity and Access Management (IAM)__
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+6. In `aws.exports.js` on the client app, change `aws_appsync_authenticationType` to `AWS_IAM`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+7. In the Cognito dashboard, click "Manage Identity Pools" & click on your identity pool.
 
-### `npm run eject`
+8. Click "Edit Identity Pool" to see your "Unauthenticated role" & "Authenticated Role"
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+9. Open the IAM console & find the "Unauthenticated role" from step 8
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+10. Click "Add inline policy"
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "appsync:GraphQL"
+            ],
+            "Resource": [
+                "arn:aws:appsync:<REGION>:<ACCOUNTID>:apis/<APIID>/types/Mutation/fields/listTodos"
+            ]
+        }
+    ]
+}
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+11. Open the IAM console & find the "Authenticated role" from step 8
 
-## Learn More
+12. Click "Add inline policy"
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "appsync:GraphQL"
+            ],
+            "Resource": [
+                "arn:aws:appsync:<REGION>:<ACCOUNTID>:apis/<APIID>/types/Mutation/fields/listTodos",
+                "arn:aws:appsync:<REGION>:<ACCOUNTID>:apis/<APIID>/types/Mutation/fields/createTodo"
+            ]
+        }
+    ]
+}
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+13. In index.js, add this code:
 
-### Code Splitting
+```js
+import { Auth } from 'aws-amplify'
+Auth.currentCredentials()
+  .then(d => console.log('data: ', d))
+  .catch(e => console.log('error: ', e))
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+14. You should now be able to query when logged out, & query & create mutations when logged in.

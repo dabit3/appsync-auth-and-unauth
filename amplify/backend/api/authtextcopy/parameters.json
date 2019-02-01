@@ -1,0 +1,13 @@
+{
+    "AppSyncApiName": "authtextcopy",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authcognito15a12efe",
+            "Outputs.UserPoolId"
+        ]
+    },
+    "schemaGraphql": "s3://authtextcopy-20190201125317-deployment/amplify-appsync-files/schema.graphql.1549054871420",
+    "ResolverBucket": "authtextcopy-20190201125317-deployment",
+    "ResolverRootKey": "amplify-appsync-files",
+    "DeploymentTimestamp": "1549054871420"
+}
