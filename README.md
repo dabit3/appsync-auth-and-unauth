@@ -98,3 +98,5 @@ Auth.currentCredentials()
 ```
 
 14. You should now be able to query when logged out, & query & create mutations when logged in.
+
+#### If you'd like to access the unique identity of the logged in user for user authorization & fine grained access control, you can access the $context.identity.cognitoIdentityId) in the resolver.
