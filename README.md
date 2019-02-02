@@ -22,6 +22,7 @@ __User Sign-Up, Sign-In, connected with AWS IAM controls (Enables per-user Stora
 > Please enter a name for your identity pool. __YOURIDPOOLNAME__
 
 > Allow unauthenticated logins? (Provides scoped down permissions that you can control via AWS IAM) __Yes__
+
 __Choose defaults for the rest of the questions__
 
 3. Add the api
