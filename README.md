@@ -1,5 +1,7 @@
 ## AWS AppSync - Authenticated & Unauthenticated Users
 
+> AWS AppSync now supports multiple authentication types! To learn more about how this works, check out the launch post [here](https://aws.amazon.com/blogs/mobile/using-multiple-authorization-types-with-aws-appsync-graphql-apis/).
+
 Using the following steps, you can allow both Authenticated & Unauthenticated access to your AWS AppSync API:
 
 1. Create an Amplify project
