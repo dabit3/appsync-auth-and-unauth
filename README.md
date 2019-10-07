@@ -2,6 +2,10 @@
 
 > AWS AppSync now supports multiple authentication types! To learn more about how this works, check out the launch post [here](https://aws.amazon.com/blogs/mobile/using-multiple-authorization-types-with-aws-appsync-graphql-apis/).
 
+> To learn more about how to use multiple authorization rules with Amplify GraphQL Transform, check out the documentation [here](https://aws-amplify.github.io/docs/cli-toolchain/graphql#auth).
+
+#### The below steps are only if you want to set this up manually. We recommend using the built in APIs that enable multiple authorization types that are now part of the service.
+
 Using the following steps, you can allow both Authenticated & Unauthenticated access to your AWS AppSync API:
 
 1. Create an Amplify project
